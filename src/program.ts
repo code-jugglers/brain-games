@@ -1,4 +1,5 @@
 import { Board, Team } from './board';
+import { MoveMaker } from 'move-maker';
 
 export class Program {
   constructor(public board: Board, private team: Team) {
@@ -9,6 +10,8 @@ export class Program {
 
     process.stdin.on('data', (txt: string) => this.onMoveReceived(txt));
   }
+
+  gameEngine = new MoveMaker(this.board);
 
   displayState() {
     this.board.print();
