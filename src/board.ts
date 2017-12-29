@@ -23,7 +23,11 @@ export class Board {
     this.squares[i] = team;
   }
 
-  print(): void {
+  setByIndex(index: number, team: Team) {
+    this.squares[index] = team;
+  }
+
+  print() {
     const board = this.squares.reduce((b: string, team: Team, i: number) => {
       if (!(i % 3)) {
         b += '\n';
