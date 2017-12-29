@@ -2,7 +2,7 @@ import { Board, Team } from './board';
 import { GameState, Move } from './game-state';
 
 export class MoveMaker {
-  gameboard: Board;
+  constructor(private board: Board) {}
 
   getMoves(): Move[] {
     // retrieve the game state that corresponds to the current game state
