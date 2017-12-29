@@ -2,7 +2,7 @@ import { Board, Team } from './board';
 
 import { Program } from './program';
 
-// import { GameStateGenerator } from './generate-game-states';
+// import { GameStateGenerator } from './game-state-generator';
 
 // const generator = new GameStateGenerator();
 // generator.generate();
