@@ -23,7 +23,7 @@ export class Board {
     this.squares[i] = team;
   }
 
-  print() {
+  print(): void {
     const board = this.squares.reduce((b: string, team: Team, i: number) => {
       if (!(i % 3)) {
         b += '\n';
