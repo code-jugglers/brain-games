@@ -1,0 +1,21 @@
+{
+  "name": "xo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "prettier": {
+    "printWidth": 80,
+    "singleQuote": true,
+    "semi": true
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc -p tsconfig.json -w",
+    "build": "tsc -p tsconfig.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  }
+}
