@@ -9,7 +9,6 @@
     "semi": true
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc -p tsconfig.json -w",
     "build": "tsc -p tsconfig.json"
   },
