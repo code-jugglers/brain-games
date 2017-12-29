@@ -24,18 +24,19 @@ export class Board {
   }
 
   print() {
-    let board = '';
+    const board = this.squares.reduce(
+      (board: string, team: Team, i: number) => {
+        if (!(i % 3)) {
+          board += '\n';
+        }
 
-    for (let i = 0; i < this.squares.length; i++) {
-      if (!(i % 3)) {
-        board += '\n';
-      }
+        board += team + ' ';
 
-      board += this.squares[i] + ' ';
-    }
+        return board;
+      },
+      ''
+    );
 
-    board += '\n';
-
-    console.log(board);
+    console.log(board + '\n');
   }
 }
