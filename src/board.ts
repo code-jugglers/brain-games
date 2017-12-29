@@ -28,18 +28,15 @@ export class Board {
   }
 
   print() {
-    const board = this.squares.reduce(
-      (board: string, team: Team, i: number) => {
-        if (!(i % 3)) {
-          board += '\n';
-        }
+    const board = this.squares.reduce((b: string, team: Team, i: number) => {
+      if (!(i % 3)) {
+        b += '\n';
+      }
 
-        board += team + ' ';
+      b += team + ' ';
 
-        return board;
-      },
-      ''
-    );
+      return b;
+    }, '');
 
     console.log(board + '\n');
   }
