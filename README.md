@@ -1,5 +1,6 @@
 # xo
 
-To start compiler run ```npm start```
+To install: ```npm i ```
+To start compiler: ```npm start```
 
-To run code with node ```node build/```
+To run code with node: ```node build/```
