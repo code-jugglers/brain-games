@@ -18,9 +18,11 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.0",
     "@types/node": "^8.5.2",
+    "@types/yargs": "^10.0.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "fs-extra": "^5.0.0"
+    "fs-extra": "^5.0.0",
+    "yargs": "^10.0.3"
   }
 }
