@@ -27,6 +27,10 @@ export class Board {
     this.squares[index] = team;
   }
 
+  key() {
+    return this.squares.join('');
+  }
+
   print() {
     const board = this.squares.reduce((b: string, team: Team, i: number) => {
       if (!(i % 3)) {
