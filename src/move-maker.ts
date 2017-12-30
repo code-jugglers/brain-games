@@ -21,13 +21,12 @@ export class MoveMaker {
   }
 
   makeMove(move: Move, team: Team): void {
-    // make your move, record the output
+    this.board.setByIndex(move.index, team);
     this.moveTracking.push(new MoveHistory(move, team));
   }
 
   chooseWinner(): Team {
-    // determine the winner and return that value -- also record the winner
-    // then update probabilities based on the result
+    // determine the winner and return that value
     const length = this.board.squares.length;
     const squares = this.board.squares;
     let winner: Team = Team.E;
@@ -51,5 +50,13 @@ export class MoveMaker {
     }
 
     return winner;
+  }
+
+  learnThings(winner: Team) {
+    for (let move of this.moveTracking) {
+      if (move.team === winner) {
+        //update count for that team
+      }
+    }
   }
 }
