@@ -1,6 +1,5 @@
 import { Board, Team } from './board';
 import { GameStates, GameState, Move } from './game-state';
-import { readJsonSync, writeJsonSync } from 'fs-extra';
 
 export class MoveHistory {
   constructor(public move: Move, public team: Team, public key: string) {}
@@ -8,9 +7,18 @@ export class MoveHistory {
 
 export class MoveMaker {
   private moveTracking: MoveHistory[] = [];
-  private gameStates = new GameStates('teamX_brain.json');
+  private gameStates: GameStates;
 
-  constructor(private board: Board) {}
+  constructor(private board: Board, private team: Team) {
+    this.gameStates =
+      this.team == Team.X
+        ? new GameStates('teamX_brain.json')
+        : new GameStates('teamO_brain.json');
+  }
+
+  setBoard(board: Board) {
+    this.board = board;
+  }
 
   getMoves(): Move[] {
     return this.gameStates.gameStates[this.board.key()].moves;
@@ -30,10 +38,10 @@ export class MoveMaker {
     return moveDecision[Math.floor(Math.random() * moveDecision.length)];
   }
 
-  makeMove(team: Team): void {
+  makeMove(): void {
     let move = this.determineMove();
-    this.moveTracking.push(new MoveHistory(move, team, this.board.key()));
-    this.board.setByIndex(move.index, team);
+    this.moveTracking.push(new MoveHistory(move, this.team, this.board.key()));
+    this.board.setByIndex(move.index, this.team);
   }
 
   chooseWinner(): Team {
@@ -64,14 +72,15 @@ export class MoveMaker {
   }
 
   learnThings(winner: Team) {
-    let brain = readJsonSync('teamX_brain.json');
-
     for (let move of this.moveTracking) {
-      brain[move.key].moves.find(brainMove => {
+      this.gameStates.gameStates[move.key].moves.find(brainMove => {
         return brainMove.index === move.move.index;
       }).count +=
         winner === Team.X ? 3 : -1;
     }
-    writeJsonSync('teamX_brain.json', brain);
+  }
+
+  saveBrain() {
+    this.gameStates.save();
   }
 }

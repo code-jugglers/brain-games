@@ -3,7 +3,7 @@ import { MoveMaker } from './move-maker';
 
 export class Program {
   constructor(public board: Board, private team: Team) {
-    this.gameEngine.makeMove(Team.X);
+    this.gameEngine.makeMove();
     this.team = Team.O;
 
     this.displayState();
@@ -14,7 +14,7 @@ export class Program {
     process.stdin.on('data', (txt: string) => this.onMoveReceived(txt));
   }
 
-  gameEngine = new MoveMaker(this.board);
+  gameEngine = new MoveMaker(this.board, Team.X);
 
   displayState() {
     this.board.print();
@@ -26,6 +26,7 @@ export class Program {
     } else {
       process.stdout.write(`Team ${winner} Wins! \n`);
       this.gameEngine.learnThings(winner);
+      this.gameEngine.saveBrain();
       process.exit();
     }
   }
@@ -37,7 +38,7 @@ export class Program {
 
     this.displayState();
 
-    this.gameEngine.makeMove(Team.X);
+    this.gameEngine.makeMove();
 
     this.displayState();
   }
