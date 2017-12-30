@@ -1,7 +1,8 @@
 export enum Team {
   X = 'X',
   O = 'O',
-  E = '.'
+  E = '.',
+  CAT = 'CAT'
 }
 
 export class Board {
