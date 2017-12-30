@@ -9,7 +9,7 @@ let xWins = 0;
 let oWins = 0;
 let catWins = 0;
 
-const iterations = process.argv.length < 3 ? 50000 : process.argv[2];
+const iterations = process.argv.length < 3 ? 50000 : Number(process.argv[2]);
 
 for (let i = 0; i < iterations; i++) {
   let winner = train();
