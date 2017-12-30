@@ -1,5 +1,5 @@
 import { Board, Team } from './board';
-import { GameState, Move } from './game-state';
+import { GameStates, GameState, Move } from './game-state';
 
 export class MoveHistory {
   constructor(public move: Move, public team: Team) {}
@@ -7,6 +7,7 @@ export class MoveHistory {
 
 export class MoveMaker {
   private moveTracking: MoveHistory[] = [];
+  private gameStates = new GameStates();
 
   constructor(private board: Board) {}
 
