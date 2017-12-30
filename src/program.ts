@@ -25,6 +25,7 @@ export class Program {
       process.stdout.write(`Team ${this.team}: `);
     } else {
       process.stdout.write(`Team ${winner} Wins! \n`);
+      this.gameEngine.learnThings(winner);
       process.exit();
     }
   }
