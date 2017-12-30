@@ -1,7 +1,7 @@
 import { Board, Team } from './board';
 import { MoveMaker } from './move-maker';
 
-export class Program {
+export class PlayProgram {
   gameEngine = new MoveMaker(this.board, Team.X);
 
   constructor(public board: Board) {
@@ -55,4 +55,4 @@ export class Program {
   }
 }
 
-new Program(new Board());
+new PlayProgram(new Board());
