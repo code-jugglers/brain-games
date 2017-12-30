@@ -2,11 +2,11 @@ import { Board, Team } from './board';
 import { GameStates, GameState, Move } from './game-state';
 
 export class MoveHistory {
-  constructor(public move: Move, public team: Team, public key: string) {}
+  constructor(public squarePick: Move, public team: Team, public key: string) {}
 }
 
 export class MoveMaker {
-  private moveTracking: MoveHistory[] = [];
+  private gameHistory: MoveHistory[] = [];
   private gameStates: GameStates;
 
   constructor(private board: Board, private team: Team) {
@@ -18,7 +18,7 @@ export class MoveMaker {
 
   reset(board: Board) {
     this.board = board;
-    this.moveTracking = [];
+    this.gameHistory = [];
   }
 
   getMoves(): Move[] {
@@ -41,7 +41,7 @@ export class MoveMaker {
 
   makeMove(): void {
     let move = this.determineMove();
-    this.moveTracking.push(new MoveHistory(move, this.team, this.board.key()));
+    this.gameHistory.push(new MoveHistory(move, this.team, this.board.key()));
     this.board.setByIndex(move.index, this.team);
   }
 
@@ -75,10 +75,10 @@ export class MoveMaker {
   }
 
   learnThings(winner: Team) {
-    for (let move of this.moveTracking) {
+    for (let move of this.gameHistory) {
       let moves = this.gameStates.gameStates[move.key].moves;
       moves.find(brainMove => {
-        return brainMove.index === move.move.index;
+        return brainMove.index === move.squarePick.index;
       }).count +=
         winner === this.team ? 3 : winner === Team.CAT ? 0 : -1;
 
