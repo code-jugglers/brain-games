@@ -9,19 +9,23 @@ let xWins = 0;
 let oWins = 0;
 let catWins = 0;
 
-for (let i = 0; i < 500000; i++) {
-  // console.log(xWins + '-' + oWins + '-' + catWins);
+const iterations = process.argv.length < 3 ? 50000 : process.argv[2];
+
+for (let i = 0; i < iterations; i++) {
   let winner = train();
+
   engineX.learnThings(winner);
   engineO.learnThings(winner);
+
+  if (i % 10000 === 0) {
+    console.log(xWins + '-' + oWins + '-' + catWins);
+
+    board.print();
+  }
 
   board = new Board();
   engineX.reset(board);
   engineO.reset(board);
-
-  if (i % 10000 === 0) {
-    console.log(xWins + '-' + oWins + '-' + catWins);
-  }
 }
 
 engineX.saveBrain();
