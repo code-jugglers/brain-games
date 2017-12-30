@@ -23,22 +23,35 @@ export class Program {
       process.stdout.write(`Team ${Team.O}: `);
     } else {
       process.stdout.write(`Team ${winner} Wins! \n`);
+
       this.gameEngine.learnThings(winner);
+
       this.gameEngine.saveBrain();
+
       process.exit();
     }
   }
 
   private onMoveReceived(txt: string) {
     const data = txt.split(',');
+    const row = Number(data[0]);
+    const col = Number(data[1]);
 
-    this.board.set(Number(data[0]), Number(data[1]), Team.O);
+    const space = this.board.squares[row * 3 + col];
 
-    this.displayState();
+    if (space === Team.E) {
+      this.board.set(row, col, Team.O);
 
-    this.gameEngine.makeMove();
+      this.displayState();
 
-    this.displayState();
+      this.gameEngine.makeMove();
+
+      this.displayState();
+    } else {
+      process.stdout.write(
+        `Space ${txt} is already taken by ${space}. Please try again \n`
+      );
+    }
   }
 }
 
