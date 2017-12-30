@@ -1,7 +1,11 @@
 # xo
 
-To install: ```npm i ```
+To install: `npm i`
 
-To start compiler: ```npm start```
+To build: `npm run build`
 
-To run code with node: ```node build/```
+To Play Tic Tac Toe: `node build/play`
+
+To Train the Brains: `node build/train`
+
+For Dev: `npm start`
