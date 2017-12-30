@@ -3,6 +3,9 @@ import { MoveMaker } from './move-maker';
 
 export class Program {
   constructor(public board: Board, private team: Team) {
+    this.gameEngine.makeMove(Team.X);
+    this.team = Team.O;
+
     this.displayState();
 
     process.stdin.resume();
@@ -29,9 +32,11 @@ export class Program {
   private onMoveReceived(txt: string) {
     const data = txt.split(',');
 
-    this.board.set(Number(data[0]), Number(data[1]), this.team);
+    this.board.set(Number(data[0]), Number(data[1]), Team.O);
 
-    this.team = this.team === Team.X ? Team.O : Team.X;
+    this.displayState();
+
+    this.gameEngine.makeMove(Team.X);
 
     this.displayState();
   }

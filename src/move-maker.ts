@@ -11,16 +11,26 @@ export class MoveMaker {
 
   constructor(private board: Board) {}
 
-  getMoves(board: Board): Move[] {
-    return this.gameStates.gameStates[board.key()];
+  getMoves(): Move[] {
+    return this.gameStates.gameStates[this.board.key()].moves;
   }
 
   determineMove(): Move {
     // based on probability, select the best available move for the given team
-    return null;
+    let moves = this.getMoves();
+    let moveDecision = moves.reduce(
+      (moveDecision: Array<Move>, move: Move, index: number) => {
+        let array = new Array(move.count).fill(move, 0, move.count);
+        return moveDecision.concat(array);
+      },
+      []
+    );
+
+    return moveDecision[Math.floor(Math.random() * moveDecision.length)];
   }
 
-  makeMove(move: Move, team: Team): void {
+  makeMove(team: Team): void {
+    let move = this.determineMove();
     this.board.setByIndex(move.index, team);
     this.moveTracking.push(new MoveHistory(move, team));
   }
