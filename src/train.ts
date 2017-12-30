@@ -18,9 +18,21 @@ for (let i = 0; i < iterations; i++) {
   engineO.learnThings(winner);
 
   if (i % 10000 === 0) {
-    console.log(xWins + '-' + oWins + '-' + catWins);
+    console.log(`=========== Game ${i + 1} ==============`);
 
     board.print();
+
+    console.log('X:    ', xWins);
+    console.log('O:    ', oWins);
+    console.log('DRAW: ', catWins);
+    console.log(' ');
+  } else if (i === iterations - 1) {
+    console.log(' ');
+    console.log('=========== FINAL ==============');
+
+    board.print();
+
+    console.log(xWins + '-' + oWins + '-' + catWins);
   }
 
   board = new Board();
@@ -30,10 +42,6 @@ for (let i = 0; i < iterations; i++) {
 
 engineX.saveBrain();
 engineO.saveBrain();
-
-console.log(
-  '=============================\n' + xWins + '-' + oWins + '-' + catWins
-);
 
 function train() {
   let team: Team = Team.O;

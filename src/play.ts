@@ -13,27 +13,33 @@ export class PlayProgram {
     }
 
     let team = process.argv[2];
+
     switch (team) {
       case 'x':
       case 'X':
         this.userTeam = Team.X;
         this.aiTeam = Team.O;
         break;
+
       case 'o':
       case 'O':
         this.userTeam = Team.O;
         this.aiTeam = Team.X;
         break;
+
       default:
         process.stdout.write('Specify team, X or O\n');
         process.exit();
     }
 
     this.gameEngine = new MoveMaker(this.board, this.aiTeam);
+
     if (this.aiTeam == Team.X) {
       this.gameEngine.makeMove();
     }
+
     this.displayState();
+
     this.printPrompt();
 
     process.stdin.resume();
@@ -75,7 +81,6 @@ export class PlayProgram {
 
       this.gameEngine.makeMove();
 
-      process.stdout.write(`Team ${this.aiTeam}'s move:`);
       this.displayState();
 
       this.printPrompt();
@@ -83,6 +88,7 @@ export class PlayProgram {
       process.stdout.write(
         `Space ${txt} is already taken by ${space}. Please try again \n`
       );
+
       this.printPrompt();
     }
   }

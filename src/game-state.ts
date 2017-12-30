@@ -1,6 +1,6 @@
-import { Board, Team } from './board';
-
 import { readJsonSync, writeJsonSync } from 'fs-extra';
+
+import { Board, Team } from './board';
 
 export class Move {
   constructor(public index: number, public count: number) {}
@@ -11,10 +11,9 @@ export class GameState {
 }
 
 export class GameStates {
-  gameStates: any;
-  constructor(public savedFile = 'game-states.json') {
-    this.gameStates = readJsonSync(savedFile);
-  }
+  gameStates: { [key: string]: GameState } = readJsonSync(this.savedFile);
+
+  constructor(public savedFile = 'game-states.json') {}
 
   save() {
     writeJsonSync(this.savedFile, this.gameStates);

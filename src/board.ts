@@ -6,34 +6,28 @@ export enum Team {
 }
 
 export class Board {
-  squares: Team[] = [
-    Team.E,
-    Team.E,
-    Team.E,
-    Team.E,
-    Team.E,
-    Team.E,
-    Team.E,
-    Team.E,
-    Team.E
-  ];
+  private spaces: Team[] = new Array(9).fill(Team.E);
+
+  get squares() {
+    return [...this.spaces];
+  }
 
   set(row: number, col: number, team: Team) {
     const i = row * 3 + col;
 
-    this.squares[i] = team;
+    this.spaces[i] = team;
   }
 
   setByIndex(index: number, team: Team) {
-    this.squares[index] = team;
+    this.spaces[index] = team;
   }
 
   key() {
-    return this.squares.join('');
+    return this.spaces.join('');
   }
 
   print() {
-    const board = this.squares.reduce((b: string, team: Team, i: number) => {
+    const board = this.spaces.reduce((b: string, team: Team, i: number) => {
       if (!(i % 3)) {
         b += '\n';
       }
