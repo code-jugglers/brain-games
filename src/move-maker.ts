@@ -7,17 +7,16 @@ export class MoveHistory {
 
 export class MoveMaker {
   private gameHistory: MoveHistory[] = [];
-  private gameStates: GameStates;
 
-  constructor(private board: Board, private team: Team) {
-    this.gameStates =
-      this.team == Team.X
-        ? new GameStates('teamX_brain.json')
-        : new GameStates('teamO_brain.json');
-  }
+  private gameStates: GameStates = this.team === Team.X
+    ? new GameStates('teamX_brain.json')
+    : new GameStates('teamO_brain.json');
+
+  constructor(private board: Board, private team: Team) {}
 
   reset(board: Board) {
     this.board = board;
+
     this.gameHistory = [];
   }
 
