@@ -49,8 +49,8 @@ export class MoveMaker {
       winner = squares[2];
     } else if (squares[0] === squares[4] && squares[4] === squares[8]) {
       winner = squares[0];
-    } else if (squares[3] === squares[5] && squares[5] === squares[6]) {
-      winner = squares[3];
+    } else if (squares[2] === squares[4] && squares[4] === squares[6]) {
+      winner = squares[2];
     }
 
     return winner;
