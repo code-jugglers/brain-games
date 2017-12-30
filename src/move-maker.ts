@@ -7,6 +7,7 @@ export class MoveHistory {
 
 export class MoveMaker {
   private moveTracking: MoveHistory[] = [];
+
   constructor(private board: Board) {}
 
   getMoves(): Move[] {
@@ -21,7 +22,7 @@ export class MoveMaker {
     return null;
   }
 
-  makeMove(move: Move, team: Team) {
+  makeMove(move: Move, team: Team): void {
     // make your move, record the output
     this.moveTracking.push(new MoveHistory(move, team));
   }
@@ -29,6 +30,28 @@ export class MoveMaker {
   chooseWinner(): Team {
     // determine the winner and return that value -- also record the winner
     // then update probabilities based on the result
-    return Team.E;
+    const length = this.board.squares.length;
+    const squares = this.board.squares;
+    let winner: Team = Team.E;
+
+    if (squares[0] === squares[1] && squares[1] === squares[2]) {
+      winner = squares[0];
+    } else if (squares[3] === squares[4] && squares[4] === squares[5]) {
+      winner = squares[3];
+    } else if (squares[6] === squares[7] && squares[7] === squares[8]) {
+      winner = squares[6];
+    } else if (squares[0] === squares[3] && squares[3] === squares[6]) {
+      winner = squares[0];
+    } else if (squares[1] === squares[4] && squares[4] === squares[7]) {
+      winner = squares[1];
+    } else if (squares[2] === squares[5] && squares[5] === squares[8]) {
+      winner = squares[2];
+    } else if (squares[0] === squares[4] && squares[4] === squares[8]) {
+      winner = squares[0];
+    } else if (squares[3] === squares[5] && squares[5] === squares[6]) {
+      winner = squares[3];
+    }
+
+    return winner;
   }
 }

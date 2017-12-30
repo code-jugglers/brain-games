@@ -1,5 +1,5 @@
 import { Board, Team } from './board';
-import { MoveMaker } from 'move-maker';
+import { MoveMaker } from './move-maker';
 
 export class Program {
   constructor(public board: Board, private team: Team) {
@@ -16,7 +16,14 @@ export class Program {
   displayState() {
     this.board.print();
 
-    process.stdout.write(`Team ${this.team}: `);
+    const winner = this.gameEngine.chooseWinner();
+
+    if (winner === Team.E) {
+      process.stdout.write(`Team ${this.team}: `);
+    } else {
+      process.stdout.write(`Team ${winner} Wins! \n`);
+      process.exit();
+    }
   }
 
   private onMoveReceived(txt: string) {
