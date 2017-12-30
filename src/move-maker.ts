@@ -11,11 +11,8 @@ export class MoveMaker {
 
   constructor(private board: Board) {}
 
-  getMoves(): Move[] {
-    // retrieve the game state that corresponds to the current game state
-
-    // return the available moves
-    return null;
+  getMoves(board: Board): Move[] {
+    return this.gameStates.gameStates[board.key()];
   }
 
   determineMove(): Move {
