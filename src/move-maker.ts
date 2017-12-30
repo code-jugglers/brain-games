@@ -16,8 +16,9 @@ export class MoveMaker {
         : new GameStates('teamO_brain.json');
   }
 
-  setBoard(board: Board) {
+  reset(board: Board) {
     this.board = board;
+    this.moveTracking = [];
   }
 
   getMoves(): Move[] {
@@ -75,10 +76,17 @@ export class MoveMaker {
 
   learnThings(winner: Team) {
     for (let move of this.moveTracking) {
-      this.gameStates.gameStates[move.key].moves.find(brainMove => {
+      let moves = this.gameStates.gameStates[move.key].moves;
+      moves.find(brainMove => {
         return brainMove.index === move.move.index;
       }).count +=
-        winner === Team.X ? 3 : -1;
+        winner === this.team ? 3 : winner === Team.CAT ? 0 : -1;
+
+      if (moves.every(move => move.count === 0)) {
+        moves.forEach((move: Move, index: number) => {
+          move.count = 3;
+        });
+      }
     }
   }
 
