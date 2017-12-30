@@ -7,14 +7,12 @@ export class MoveHistory {
 
 export class MoveMaker {
   private moveTracking: MoveHistory[] = [];
-  private gameStates: GameStates;
 
-  constructor(private board: Board, private team: Team) {
-    this.gameStates =
-      this.team == Team.X
-        ? new GameStates('teamX_brain.json')
-        : new GameStates('teamO_brain.json');
-  }
+  private gameStates: GameStates = this.team === Team.X
+    ? new GameStates('teamX_brain.json')
+    : new GameStates('teamO_brain.json');
+
+  constructor(private board: Board, private team: Team) {}
 
   reset(board: Board) {
     this.board = board;
@@ -28,9 +26,11 @@ export class MoveMaker {
   determineMove(): Move {
     // based on probability, select the best available move for the given team
     let moves = this.getMoves();
+
     let moveDecision = moves.reduce(
       (moveDecision: Array<Move>, move: Move, index: number) => {
         let array = new Array(move.count).fill(move, 0, move.count);
+
         return moveDecision.concat(array);
       },
       []
@@ -41,7 +41,9 @@ export class MoveMaker {
 
   makeMove(): void {
     let move = this.determineMove();
+
     this.moveTracking.push(new MoveHistory(move, this.team, this.board.key()));
+
     this.board.setByIndex(move.index, this.team);
   }
 
@@ -77,15 +79,14 @@ export class MoveMaker {
   learnThings(winner: Team) {
     for (let move of this.moveTracking) {
       let moves = this.gameStates.gameStates[move.key].moves;
+
       moves.find(brainMove => {
         return brainMove.index === move.move.index;
       }).count +=
         winner === this.team ? 3 : winner === Team.CAT ? 0 : -1;
 
       if (moves.every(move => move.count === 0)) {
-        moves.forEach((move: Move, index: number) => {
-          move.count = 3;
-        });
+        moves.forEach((move: Move, index: number) => (move.count = 3));
       }
     }
   }
