@@ -9,7 +9,7 @@ let xWins = 0;
 let oWins = 0;
 let catWins = 0;
 
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 500000; i++) {
   // console.log(xWins + '-' + oWins + '-' + catWins);
   let winner = train();
   engineX.learnThings(winner);
