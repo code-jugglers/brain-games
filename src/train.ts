@@ -32,7 +32,9 @@ for (let i = 0; i < iterations; i++) {
 
     board.print();
 
-    console.log(xWins + '-' + oWins + '-' + catWins);
+    console.log('X:    ', xWins);
+    console.log('O:    ', oWins);
+    console.log('DRAW: ', catWins);
   }
 
   board = new Board();
