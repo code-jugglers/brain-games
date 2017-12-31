@@ -11,7 +11,7 @@ To Play Tic Tac Toe: `node build/play X teamO_brain_50000000.json`
 
 To Train the Brains: `node build/train 1000`
 
-- 1st Argument is the number of iterations, defaults is 50000
+- 1st Argument is the number of iterations. default is 50000
 - 2nd Argument is the brain for X. Default is teamX_brain.json
 - 3rd Argument is the brain for O. Default is teamO_brain.json
 
