@@ -7,13 +7,13 @@ let board = new Board();
 let engineX = new MoveMaker(
   board,
   Team.X,
-  process.argv[2] || 'teamX_brain.json'
+  process.argv[3] || 'teamX_brain.json'
 );
 
 let engineO = new MoveMaker(
   board,
   Team.O,
-  process.argv[3] || 'teamO_brain.json'
+  process.argv[4] || 'teamO_brain.json'
 );
 
 let xWins = 0;
