@@ -2,16 +2,12 @@ import { Board, Team } from './board';
 import { MoveMaker } from './move-maker';
 
 export class PlayProgram {
-  aiTeam: Team;
-  userTeam: Team;
-  gameEngine: MoveMaker;
+  private aiTeam: Team;
+  private userTeam: Team;
+  private gameEngine: MoveMaker;
+  private brain: string;
 
   constructor(public board: Board) {
-    if (process.argv.length === 2) {
-      process.stdout.write('Specify team, X or O\n');
-      process.exit();
-    }
-
     let team = process.argv[2];
 
     switch (team) {
@@ -19,12 +15,14 @@ export class PlayProgram {
       case 'X':
         this.userTeam = Team.X;
         this.aiTeam = Team.O;
+        this.brain = process.argv[3] || 'teamX_brain.json';
         break;
 
       case 'o':
       case 'O':
         this.userTeam = Team.O;
         this.aiTeam = Team.X;
+        this.brain = process.argv[3] || 'teamO_brain.json';
         break;
 
       default:
@@ -32,7 +30,7 @@ export class PlayProgram {
         process.exit();
     }
 
-    this.gameEngine = new MoveMaker(this.board, this.aiTeam);
+    this.gameEngine = new MoveMaker(this.board, this.aiTeam, this.brain);
 
     if (this.aiTeam == Team.X) {
       this.gameEngine.makeMove();

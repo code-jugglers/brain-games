@@ -1,9 +1,20 @@
 import { Board, Team } from './board';
 import { MoveMaker } from './move-maker';
+import { GameStates } from 'game-state';
 
 let board = new Board();
-let engineX = new MoveMaker(board, Team.X);
-let engineO = new MoveMaker(board, Team.O);
+
+let engineX = new MoveMaker(
+  board,
+  Team.X,
+  process.argv[2] || 'teamX_brain.json'
+);
+
+let engineO = new MoveMaker(
+  board,
+  Team.O,
+  process.argv[3] || 'teamO_brain.json'
+);
 
 let xWins = 0;
 let oWins = 0;

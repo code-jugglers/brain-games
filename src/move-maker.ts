@@ -1,5 +1,6 @@
 import { Board, Team } from './board';
 import { GameStates, GameState, Move } from './game-state';
+import { GameStateGenerator } from 'game-state-generator';
 
 export class MoveHistory {
   constructor(public squarePick: Move, public team: Team, public key: string) {}
@@ -7,12 +8,13 @@ export class MoveHistory {
 
 export class MoveMaker {
   private gameHistory: MoveHistory[] = [];
+  private gameStates = new GameStates(this.brain);
 
-  private gameStates: GameStates = this.team === Team.X
-    ? new GameStates('teamX_brain.json')
-    : new GameStates('teamO_brain.json');
-
-  constructor(private board: Board, private team: Team) {}
+  constructor(
+    private board: Board,
+    private team: Team,
+    private brain: string
+  ) {}
 
   reset(board: Board) {
     this.board = board;
