@@ -48,7 +48,7 @@ export class PlayProgram {
   displayState() {
     this.board.print();
 
-    const winner = this.gameEngine.chooseWinner();
+    const winner = this.board.determineWinner();
 
     if (winner !== Team.E) {
       process.stdout.write(`Team ${winner} Wins! \n`);
@@ -67,8 +67,8 @@ export class PlayProgram {
 
   private onMoveReceived(txt: string) {
     const data = txt.split(',');
-    const row = Number(data[0]);
-    const col = Number(data[1]);
+    const col = Number(data[0]);
+    const row = Number(data[1]);
 
     const space = this.board.squares[row * 3 + col];
 

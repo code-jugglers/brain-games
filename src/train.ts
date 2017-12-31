@@ -59,7 +59,7 @@ engineO.saveBrain();
 function train() {
   let team: Team = Team.O;
 
-  while (engineX.chooseWinner() === Team.E) {
+  while (board.determineWinner() === Team.E) {
     team = team === Team.O ? Team.X : Team.O;
 
     switch (team) {
@@ -73,17 +73,21 @@ function train() {
     }
   }
 
-  switch (engineX.chooseWinner()) {
+  const winner = board.determineWinner();
+
+  switch (winner) {
     case Team.X:
       xWins += 1;
       break;
+
     case Team.O:
       oWins += 1;
       break;
+
     case Team.CAT:
       catWins += 1;
       break;
   }
 
-  return engineX.chooseWinner();
+  return winner;
 }
