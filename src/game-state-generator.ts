@@ -18,14 +18,14 @@ export class GameStateGenerator {
 
         board.setByIndex(
           positionIndex++,
-          team == 0 ? Team.E : team == 1 ? Team.X : Team.O
+          team == 0 ? Team.Empty : team == 1 ? Team.X : Team.O
         );
 
         c = Math.floor(c / 3);
       }
 
       gameState.moves = board.squares
-        .filter(team => team === Team.E)
+        .filter(team => team === Team.Empty)
         .map((_, i) => new Move(i, 3));
 
       gameStates[board.key()] = gameState;

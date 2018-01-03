@@ -50,7 +50,10 @@ export class PlayProgram {
 
     const winner = this.board.determineWinner();
 
-    if (winner !== Team.E) {
+    console.log(this.board.squares);
+    console.log(winner);
+
+    if (winner !== Team.Empty) {
       process.stdout.write(`Team ${winner} Wins! \n`);
 
       this.gameEngine.learnThings(winner);
@@ -68,7 +71,7 @@ export class PlayProgram {
 
     const space = this.board.squares[row * 3 + col];
 
-    if (space === Team.E) {
+    if (space === Team.Empty) {
       this.board.set(row, col, this.userTeam);
 
       this.tick();

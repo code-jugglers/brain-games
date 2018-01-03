@@ -59,7 +59,7 @@ engineO.saveBrain();
 function train() {
   let team: Team = Team.O;
 
-  while (board.determineWinner() === Team.E) {
+  while (board.determineWinner() === Team.Empty) {
     team = team === Team.O ? Team.X : Team.O;
 
     switch (team) {
