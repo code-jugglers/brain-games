@@ -50,9 +50,6 @@ export class PlayProgram {
 
     const winner = this.board.determineWinner();
 
-    console.log(this.board.squares);
-    console.log(winner);
-
     if (winner !== Team.Empty) {
       process.stdout.write(`Team ${winner} Wins! \n`);
 
