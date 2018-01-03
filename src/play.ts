@@ -36,7 +36,7 @@ export class PlayProgram {
       this.gameEngine.makeMove();
     }
 
-    this.displayState();
+    this.tick();
 
     this.printPrompt();
 
@@ -45,7 +45,7 @@ export class PlayProgram {
     process.stdin.on('data', (txt: string) => this.onMoveReceived(txt));
   }
 
-  displayState() {
+  tick() {
     this.board.print();
 
     const winner = this.board.determineWinner();
@@ -61,10 +61,6 @@ export class PlayProgram {
     }
   }
 
-  printPrompt() {
-    process.stdout.write(`Team ${this.userTeam}: `);
-  }
-
   private onMoveReceived(txt: string) {
     const data = txt.split(',');
     const col = Number(data[0]);
@@ -75,11 +71,11 @@ export class PlayProgram {
     if (space === Team.E) {
       this.board.set(row, col, this.userTeam);
 
-      this.displayState();
+      this.tick();
 
       this.gameEngine.makeMove();
 
-      this.displayState();
+      this.tick();
 
       this.printPrompt();
     } else {
@@ -89,6 +85,10 @@ export class PlayProgram {
 
       this.printPrompt();
     }
+  }
+
+  private printPrompt() {
+    process.stdout.write(`Team ${this.userTeam}: `);
   }
 }
 

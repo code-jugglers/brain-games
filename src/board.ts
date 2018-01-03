@@ -42,7 +42,6 @@ export class Board {
 
   determineWinner() {
     const squares = this.squares;
-    let winner: Team = Team.E;
 
     if (squares[0] === squares[1] && squares[1] === squares[2]) {
       return squares[0];
@@ -62,8 +61,8 @@ export class Board {
       return squares[2];
     } else if (squares.every(square => square !== Team.E)) {
       return Team.CAT;
-    } else {
-      return Team.E;
     }
+
+    return Team.E;
   }
 }
