@@ -16,3 +16,7 @@ To Train the Brains: `node build/train 1000`
 - 3rd Argument is the brain for O. Default is teamO_brain.json
 
 For Dev: `npm start`
+
+Explaination:
+
+[![Alt text](https://img.youtube.com/vi/R9c-_neaxeU/0.jpg)](https://www.youtube.com/watch?v=R9c-_neaxeU)
