@@ -37,11 +37,24 @@ export class MoveMaker {
   determineMove(): Move {
     // based on probability, select the best available move for the given team
 
-    const moveDecision = this.getAvailableMoves().reduce(
-      (moveDecision: Array<Move>, move: Move, index: number) => {
-        let array = new Array(move.count).fill(move, 0, move.count);
+    const memory = this.brain.gameStates[this.board.key()];
 
-        return moveDecision.concat(array);
+    const moveDecision = this.getAvailableMoves().reduce(
+      (decider: Move[], move: Move) => {
+        // Check if brain has encountered this state before and if they have a move for the given available move
+        if (memory) {
+          const memoryMove = memory.moves
+            .filter(mm => mm.count > 0)
+            .find(mm => mm.index === move.index);
+
+          if (memoryMove) {
+            return decider.concat(
+              new Array(memoryMove.count).fill(memoryMove, 0, memoryMove.count)
+            );
+          }
+        }
+
+        return decider.concat(new Array(move.count).fill(move, 0, move.count));
       },
       []
     );
@@ -82,7 +95,7 @@ export class MoveMaker {
     this.brain.save();
   }
 
-  getAvailableMoves() {
+  getAvailableMoves(): Move[] {
     return this.board.squares
       .map((square, index) => ({ square, index }))
       .filter((space, index) => space.square === Team.Empty)
