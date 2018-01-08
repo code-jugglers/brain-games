@@ -8,12 +8,12 @@ export class MoveHistory {
 
 export class MoveMaker {
   private gameHistory: MoveHistory[] = [];
-  private gameStates = new GameStates(this.brain);
+  private brain = new GameStates(this.brainConfig);
 
   constructor(
     private board: Board,
     private team: Team,
-    private brain: string
+    private brainConfig: string
   ) {}
 
   reset(board: Board) {
@@ -23,15 +23,24 @@ export class MoveMaker {
   }
 
   getMoves(): Move[] {
-    return this.gameStates.gameStates[this.board.key()].moves;
+    const state = this.brain.gameStates[this.board.key()];
+
+    if (!state) {
+      this.brain.gameStates[this.board.key()] = {
+        moves: []
+      };
+    }
+
+    return this.brain.gameStates[this.board.key()].moves;
   }
 
   determineMove(): Move {
     // based on probability, select the best available move for the given team
-    let moves = this.getMoves();
-    let moveDecision = moves.reduce(
+
+    const moveDecision = this.getAvailableMoves().reduce(
       (moveDecision: Array<Move>, move: Move, index: number) => {
         let array = new Array(move.count).fill(move, 0, move.count);
+
         return moveDecision.concat(array);
       },
       []
@@ -42,27 +51,41 @@ export class MoveMaker {
 
   makeMove(): void {
     let move = this.determineMove();
+
     this.gameHistory.push(new MoveHistory(move, this.team, this.board.key()));
+
     this.board.setByIndex(move.index, this.team);
   }
 
   learnThings(winner: Team) {
-    for (let move of this.gameHistory) {
-      let moves = this.gameStates.gameStates[move.key].moves;
-      moves.find(brainMove => {
-        return brainMove.index === move.squarePick.index;
-      }).count +=
-        winner === this.team ? 3 : winner === Team.CAT ? 0 : -1;
+    this.gameHistory.forEach(move => {
+      const state = this.brain.gameStates[move.key];
+      const moves = state ? state.moves : [];
 
-      if (moves.every(move => move.count === 0)) {
-        moves.forEach((move: Move, index: number) => {
-          move.count = 3;
-        });
+      const foo = moves.find(
+        brainMove => brainMove.index === move.squarePick.index
+      );
+
+      if (foo) {
+        foo.count += winner === this.team ? 3 : winner === Team.CAT ? 0 : -1;
+      } else {
+        move.squarePick.count = 3;
+
+        moves.push(move.squarePick);
       }
-    }
+
+      this.brain.gameStates[move.key] = { moves };
+    });
   }
 
   saveBrain() {
-    this.gameStates.save();
+    this.brain.save();
+  }
+
+  getAvailableMoves() {
+    return this.board.squares
+      .map((square, index) => ({ square, index }))
+      .filter((space, index) => space.square === Team.Empty)
+      .map(space => new Move(space.index, 3));
   }
 }
