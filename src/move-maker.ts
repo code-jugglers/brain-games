@@ -1,6 +1,5 @@
 import { Board, Team } from './board';
 import { GameStates, GameState, Move } from './game-state';
-import { GameStateGenerator } from 'game-state-generator';
 
 export class MoveHistory {
   constructor(public squarePick: Move, public team: Team, public key: string) {}
@@ -22,42 +21,19 @@ export class MoveMaker {
     this.gameHistory = [];
   }
 
-  getMoves(): Move[] {
-    const state = this.brain.gameStates[this.board.key()];
-
-    if (!state) {
-      this.brain.gameStates[this.board.key()] = {
-        moves: []
-      };
-    }
-
-    return this.brain.gameStates[this.board.key()].moves;
-  }
-
   determineMove(): Move {
     // based on probability, select the best available move for the given team
+    const memory = this.brain.gameStates.get(this.board.key());
+    const memoryLength = memory ? memory.moves.length : 0;
+    let moveDecision = this.getAvailableMoves();
 
-    const memory = this.brain.gameStates[this.board.key()];
-
-    const moveDecision = this.getAvailableMoves().reduce(
-      (decider: Move[], move: Move) => {
-        // Check if brain has encountered this state before and if they have a move for the given available move
-        if (memory) {
-          const memoryMove = memory.moves
-            .filter(mm => mm.count > 0)
-            .find(mm => mm.index === move.index);
-
-          if (memoryMove) {
-            return decider.concat(
-              new Array(memoryMove.count).fill(memoryMove, 0, memoryMove.count)
-            );
-          }
-        }
-
-        return decider.concat(new Array(move.count).fill(move, 0, move.count));
-      },
-      []
-    );
+    if (memory) {
+      for (let i = 0; i < memoryLength; i++) {
+        moveDecision = moveDecision.concat(
+          new Array(memory.moves[i].count).fill(memory.moves[i])
+        );
+      }
+    }
 
     return moveDecision[Math.floor(Math.random() * moveDecision.length)];
   }
@@ -71,24 +47,31 @@ export class MoveMaker {
   }
 
   learnThings(winner: Team) {
-    this.gameHistory.forEach(move => {
-      const state = this.brain.gameStates[move.key];
+    const length = this.gameHistory.length;
+
+    for (let i = 0; i < length; i++) {
+      const move = this.gameHistory[i];
+      const state = this.brain.gameStates.get(move.key);
       const moves = state ? state.moves : [];
 
-      const foo = moves.find(
+      const memory = moves.find(
         brainMove => brainMove.index === move.squarePick.index
       );
 
-      if (foo) {
-        foo.count += winner === this.team ? 3 : winner === Team.CAT ? 0 : -1;
+      if (memory) {
+        if (winner === this.team) {
+          memory.count += 3;
+        } else if (winner !== Team.CAT) {
+          memory.count += memory.count ? -1 : 0;
+        }
       } else {
         move.squarePick.count = 3;
 
         moves.push(move.squarePick);
       }
 
-      this.brain.gameStates[move.key] = { moves };
-    });
+      this.brain.gameStates.set(move.key, { moves });
+    }
   }
 
   saveBrain() {
@@ -96,9 +79,15 @@ export class MoveMaker {
   }
 
   getAvailableMoves(): Move[] {
-    return this.board.squares
-      .map((square, index) => ({ square, index }))
-      .filter((space, index) => space.square === Team.Empty)
-      .map(space => new Move(space.index, 3));
+    const length = this.board.squares.length;
+    const moves: Move[] = [];
+
+    for (let i = 0; i < length; i++) {
+      if (this.board.squares[i] === Team.Empty) {
+        moves.push(new Move(i, 3));
+      }
+    }
+
+    return moves;
   }
 }
