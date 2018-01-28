@@ -1,35 +1,30 @@
 import { GameState } from './game-state';
 
 export class BrainMap {
-  state: GameState[][] = new Array(20000);
-  keys: { [key: string]: number } = {};
-  nextEmpty = 0;
+  state: GameState[] = new Array(20000);
 
-  set(key: string, state: GameState[]) {
-    if (key in this.keys) {
-      this.state[this.keys[key]] = state;
-    } else {
-      this.state[this.nextEmpty] = state;
+  constructor(initState: GameState[] = []) {
+    initState.forEach((move, i) => {
+      this.state[i] = move;
+    });
+  }
 
-      this.keys[key] = this.nextEmpty;
-
-      this.nextEmpty++;
-    }
+  set(key: string, state: GameState) {
+    this.state[this.createHash(key)] = state;
   }
 
   get(key: string) {
-    return this.state[this.keys[key]];
+    return this.state[this.createHash(key)];
+  }
+
+  createHash(key: string) {
+    let hash = 5381;
+    let i = key.length;
+
+    while (i) {
+      hash = (hash * 33) ^ key.charCodeAt(--i);
+    }
+
+    return (hash >>> 0) % 20000;
   }
 }
-
-const brain = new BrainMap();
-
-brain.set('...XXX...', []);
-
-brain.set('.........', []);
-
-brain.set('...OOO...', []);
-
-brain.set('...XXX...', []);
-
-console.log(brain);

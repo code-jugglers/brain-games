@@ -29,9 +29,9 @@ export class MoveMaker {
 
     if (memory) {
       for (let i = 0; i < memoryLength; i++) {
-        moveDecision = moveDecision.concat(
-          new Array(memory.moves[i].count).fill(memory.moves[i])
-        );
+        const m = memory.moves[i];
+
+        moveDecision = moveDecision.concat(new Array(m.count).fill(m));
       }
     }
 

@@ -1,5 +1,6 @@
 import { readJsonSync, writeJsonSync } from 'fs-extra';
 
+import { BrainMap } from './brain-map';
 import { Board, Team } from './board';
 
 export class Move {
@@ -11,20 +12,11 @@ export class GameState {
 }
 
 export class GameStates {
-  gameStates: Map<string, GameState> = new Map(readJsonSync(this.savedFile));
+  gameStates = new BrainMap(readJsonSync(this.savedFile));
 
   constructor(public savedFile = 'game-states.json') {}
 
   save() {
-    writeJsonSync(
-      this.savedFile,
-      JSON.parse(
-        JSON.stringify(
-          [...this.gameStates].filter(item => {
-            return item[0] !== undefined && item[0] !== null;
-          })
-        )
-      )
-    );
+    writeJsonSync(this.savedFile, this.gameStates.state);
   }
 }
