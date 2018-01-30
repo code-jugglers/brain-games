@@ -2,7 +2,6 @@
   "name": "brain-games",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "prettier": {
     "printWidth": 80,
     "singleQuote": true,
@@ -15,14 +14,13 @@
     "build:c4": "tsc -p ./c4/tsconfig.json"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/fs-extra": "^5.0.0",
     "@types/node": "^8.5.2",
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "commander": "^2.12.2",
     "fs-extra": "^5.0.0"
   }
 }
