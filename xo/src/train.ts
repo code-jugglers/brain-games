@@ -1,10 +1,11 @@
 import * as path from 'path';
+import { Team } from '@games/shared';
 
-import { Board, Team } from './board';
+import { XoBoard } from './board';
 import { MoveMaker } from './move-maker';
 import { GameStates } from './game-state';
 
-let board = new Board();
+let board = new XoBoard();
 
 let engineX = new MoveMaker(
   board,
@@ -58,7 +59,7 @@ for (let i = 0; i < iterations; i++) {
     console.log('DRAW: ', catWins);
   }
 
-  board = new Board();
+  board = new XoBoard();
   engineX.reset(board);
   engineO.reset(board);
 }

@@ -1,4 +1,6 @@
-import { Board, Team } from './board';
+import { Team } from '@games/shared';
+
+import { XoBoard } from './board';
 import { GameStates, GameState, Move } from './game-state';
 
 export class MoveHistory {
@@ -10,12 +12,12 @@ export class MoveMaker {
   private brain = new GameStates(this.brainConfig);
 
   constructor(
-    private board: Board,
+    private board: XoBoard,
     private team: Team,
     private brainConfig: string
   ) {}
 
-  reset(board: Board) {
+  reset(board: XoBoard) {
     this.board = board;
 
     this.gameHistory = [];
@@ -41,9 +43,12 @@ export class MoveMaker {
     );
 
     let random = Math.floor(Math.random() * total) + 1; // Random inclusive between 1 and total
+    const length = counts.length;
     let move;
-    for (let i = 0; i < counts.length; i++) {
+
+    for (let i = 0; i < length; i++) {
       move = counts[i];
+
       if (move.count == 0) {
         continue;
       }
@@ -51,6 +56,7 @@ export class MoveMaker {
       if (random <= move.count) {
         return move;
       }
+
       random = random - move.count;
     }
     return null;
@@ -67,6 +73,7 @@ export class MoveMaker {
   learnThings(winner: Team) {
     for (let move of this.gameHistory) {
       let moves = this.brain.gameStates.get(move.key).moves;
+
       moves.find(brainMove => {
         return brainMove.index === move.squarePick.index;
       }).count +=

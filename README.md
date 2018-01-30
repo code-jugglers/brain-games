@@ -28,4 +28,4 @@ For Dev: `npm run start:xo`
 ### Connect 4
 
 To build: `npm run build:c4`
-For Dev: `npm run start:xo`
+For Dev: `npm run start:c4`

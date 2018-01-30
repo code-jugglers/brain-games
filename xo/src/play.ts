@@ -1,6 +1,7 @@
 import * as path from 'path';
+import { Team } from '@games/shared';
 
-import { Board, Team } from './board';
+import { XoBoard } from './board';
 import { MoveMaker } from './move-maker';
 
 export class PlayProgram {
@@ -9,7 +10,7 @@ export class PlayProgram {
   private gameEngine: MoveMaker;
   private brain: string;
 
-  constructor(public board: Board) {
+  constructor(public board: XoBoard) {
     let team = process.argv[2];
 
     switch (team) {
@@ -102,4 +103,4 @@ export class PlayProgram {
   }
 }
 
-new PlayProgram(new Board());
+new PlayProgram(new XoBoard());
