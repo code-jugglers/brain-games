@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { Board, Team } from './board';
 import { MoveMaker } from './move-maker';
 
@@ -15,14 +17,22 @@ export class PlayProgram {
       case 'X':
         this.userTeam = Team.X;
         this.aiTeam = Team.O;
-        this.brain = process.argv[3] || 'teamO_brain.json';
+        this.brain = path.resolve(
+          __dirname,
+          '../',
+          process.argv[3] || 'teamO_brain.json'
+        );
         break;
 
       case 'o':
       case 'O':
         this.userTeam = Team.O;
         this.aiTeam = Team.X;
-        this.brain = process.argv[3] || 'teamX_brain.json';
+        this.brain = path.resolve(
+          __dirname,
+          '../',
+          process.argv[3] || 'teamX_brain.json'
+        );
         break;
 
       default:

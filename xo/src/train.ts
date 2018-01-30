@@ -1,19 +1,29 @@
+import * as path from 'path';
+
 import { Board, Team } from './board';
 import { MoveMaker } from './move-maker';
-import { GameStates } from 'game-state';
+import { GameStates } from './game-state';
 
 let board = new Board();
 
 let engineX = new MoveMaker(
   board,
   Team.X,
-  process.argv[3] || 'teamX_brain.json'
+  (this.brain = path.resolve(
+    __dirname,
+    '../',
+    process.argv[3] || 'teamX_brain.json'
+  ))
 );
 
 let engineO = new MoveMaker(
   board,
   Team.O,
-  process.argv[4] || 'teamO_brain.json'
+  (this.brain = path.resolve(
+    __dirname,
+    '../',
+    process.argv[3] || 'teamO_brain.json'
+  ))
 );
 
 let xWins = 0;

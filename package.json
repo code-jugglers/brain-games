@@ -1,5 +1,5 @@
 {
-  "name": "xo",
+  "name": "brain-games",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,8 +9,10 @@
     "semi": true
   },
   "scripts": {
-    "start": "tsc -p tsconfig.json -w",
-    "build": "tsc -p tsconfig.json"
+    "start:xo": "tsc -p ./xo/tsconfig.json -w",
+    "build:xo": "tsc -p ./xo/tsconfig.json",
+    "start:c4": "tsc -p ./c4/tsconfig.json -w",
+    "build:c4": "tsc -p ./c4/tsconfig.json"
   },
   "author": "",
   "license": "ISC",
