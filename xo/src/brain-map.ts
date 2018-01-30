@@ -10,15 +10,4 @@ export class BrainMap {
   get(key: string) {
     return this.state[key];
   }
-
-  createHash(key: string) {
-    let hash = 5381;
-    let i = key.length;
-
-    while (i) {
-      hash = (hash * 33) ^ key.charCodeAt(--i);
-    }
-
-    return (hash >>> 0) % 20000;
-  }
 }
