@@ -29,7 +29,3 @@ For Dev: `npm run start:xo`
 
 To build: `npm run build:c4`
 For Dev: `npm run start:xo`
-
-## Explaination:
-
-[![Alt text](https://img.youtube.com/vi/R9c-_neaxeU/0.jpg)](https://www.youtube.com/watch?v=R9c-_neaxeU)
