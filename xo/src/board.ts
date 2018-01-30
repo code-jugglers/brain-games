@@ -1,43 +1,8 @@
-export enum Team {
-  X = 'X',
-  O = 'O',
-  Empty = '.',
-  CAT = 'CAT'
-}
+import { Board, Team } from '@games/shared';
 
-export class Board {
-  private spaces: Team[] = new Array(9).fill(Team.Empty);
-
-  get squares() {
-    return [...this.spaces];
-  }
-
-  set(row: number, col: number, team: Team) {
-    const i = row * 3 + col;
-
-    this.spaces[i] = team;
-  }
-
-  setByIndex(index: number, team: Team) {
-    this.spaces[index] = team;
-  }
-
-  key() {
-    return this.spaces.join('');
-  }
-
-  print() {
-    const board = this.spaces.reduce((b: string, team: Team, i: number) => {
-      if (!(i % 3)) {
-        b += '\n';
-      }
-
-      b += team + ' ';
-
-      return b;
-    }, '');
-
-    console.log(board + '\n');
+export class XoBoard extends Board {
+  constructor() {
+    super(3, 3);
   }
 
   determineWinner() {

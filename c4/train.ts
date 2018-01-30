@@ -1,6 +1,8 @@
-import { Board, Team } from './board';
+import { Team } from '@games/shared';
 
-let board = new Board();
+import { C4Board } from './board';
+
+let board = new C4Board();
 
 board.set(0, 0, Team.X);
 board.set(0, 1, Team.B);

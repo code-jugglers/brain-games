@@ -1,4 +1,6 @@
-import { Board, Team } from './board';
+import { Team } from '@games/shared';
+
+import { XoBoard } from './board';
 import { GameStates, GameState, Move } from './game-state';
 
 export class MoveHistory {
@@ -10,12 +12,12 @@ export class MoveMaker {
   private brain = new GameStates(this.brainConfig);
 
   constructor(
-    private board: Board,
+    private board: XoBoard,
     private team: Team,
     private brainConfig: string
   ) {}
 
-  reset(board: Board) {
+  reset(board: XoBoard) {
     this.board = board;
 
     this.gameHistory = [];

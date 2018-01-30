@@ -1,7 +1,7 @@
 import { readJsonSync, writeJsonSync } from 'fs-extra';
 
 import { BrainMap } from './brain-map';
-import { Board, Team } from './board';
+import { XoBoard } from './board';
 
 export class Move {
   constructor(public index: number, public count: number) {}
