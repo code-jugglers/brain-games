@@ -8,7 +8,7 @@ export class Move {
 }
 
 export class GameState {
-  moves: Move[];
+  constructor(public moves: Move[]) {}
 }
 
 export class GameStates {

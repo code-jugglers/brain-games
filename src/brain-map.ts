@@ -1,20 +1,14 @@
 import { GameState } from './game-state';
 
 export class BrainMap {
-  state: GameState[] = new Array(20000);
-
-  constructor(initState: GameState[] = []) {
-    initState.forEach((move, i) => {
-      this.state[i] = move;
-    });
-  }
+  constructor(public state: { [key: string]: GameState } = {}) {}
 
   set(key: string, state: GameState) {
-    this.state[this.createHash(key)] = state;
+    this.state[key] = state;
   }
 
   get(key: string) {
-    return this.state[this.createHash(key)];
+    return this.state[key];
   }
 
   createHash(key: string) {
