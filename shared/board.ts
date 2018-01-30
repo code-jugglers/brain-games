@@ -10,7 +10,7 @@ export class Board {
   }
 
   set(row: number, col: number, team: Team) {
-    this.setByIndex(row * this.rows + col, team);
+    this.setByIndex(row * this.cols + col, team);
   }
 
   setByIndex(index: number, team: Team) {
