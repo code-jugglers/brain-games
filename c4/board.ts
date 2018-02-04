@@ -73,7 +73,7 @@ export class Board {
       }
     }
 
-    // check diagonal
+    // check diagonal right
     for (let i = 0; i < this.spaces.length; i++) {
       winner = this.checkList([
         this.spaces[i],
@@ -82,6 +82,22 @@ export class Board {
         this.spaces[i + 8 * 3],
         this.spaces[i + 8 * 4],
         this.spaces[i + 8 * 5]
+      ]);
+
+      if (winner) {
+        return winner;
+      }
+    }
+
+    // check diagonal left
+    for (let i = 0; i < this.spaces.length; i++) {
+      winner = this.checkList([
+        this.spaces[i],
+        this.spaces[i + 6],
+        this.spaces[i + 6 * 2],
+        this.spaces[i + 6 * 3],
+        this.spaces[i + 6 * 4],
+        this.spaces[i + 6 * 5]
       ]);
 
       if (winner) {
