@@ -92,14 +92,13 @@ export class Board {
   }
 
   private checkDiagonal(i: number, offset: 6 | 8) {
-    return this.checkList([
-      this.spaces[i],
-      this.spaces[i + offset],
-      this.spaces[i + offset * 2],
-      this.spaces[i + offset * 3],
-      this.spaces[i + offset * 4],
-      this.spaces[i + offset * 5]
-    ]);
+    const spaces = [];
+
+    for (let x = 0; x < this.rows; x++) {
+      spaces.push(this.spaces[i + offset * x]);
+    }
+
+    return this.checkList(spaces);
   }
 
   private checkList(spaces: Team[]) {
