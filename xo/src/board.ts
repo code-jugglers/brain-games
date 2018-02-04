@@ -6,7 +6,11 @@ export enum Team {
 }
 
 export class Board {
-  private spaces: Team[] = new Array(9).fill(Team.Empty);
+  private readonly cols = 3;
+  private readonly rows = 3;
+  private readonly spaces: Team[] = new Array(this.cols * this.rows).fill(
+    Team.Empty
+  );
 
   get squares() {
     return [...this.spaces];
