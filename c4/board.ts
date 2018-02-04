@@ -16,19 +16,19 @@ export class Board {
     return [...this.spaces];
   }
 
-  set(row: number, col: number, team: Team) {
+  set(row: number, col: number, team: Team): void {
     this.setByIndex(row * this.cols + col, team);
   }
 
-  setByIndex(index: number, team: Team) {
+  setByIndex(index: number, team: Team): void {
     this.spaces[index] = team;
   }
 
-  key() {
+  key(): string {
     return this.spaces.join('');
   }
 
-  print() {
+  print(): void {
     const board = this.spaces.reduce((b: string, team: Team, i: number) => {
       if (!(i % this.cols)) {
         b += '\n';
@@ -91,7 +91,7 @@ export class Board {
     }
   }
 
-  private checkDiagonal(i: number, offset: 6 | 8) {
+  private checkDiagonal(i: number, offset: 6 | 8): Team | undefined {
     const spaces = [];
 
     for (let x = 0; x < this.rows; x++) {
@@ -101,7 +101,7 @@ export class Board {
     return this.checkList(spaces);
   }
 
-  private checkList(spaces: Team[]) {
+  private checkList(spaces: Team[]): Team | undefined {
     if (spaces.join('').indexOf('XXXX') > -1) {
       return Team.X;
     } else if (spaces.join('').indexOf('OOOO') > -1) {
