@@ -42,7 +42,7 @@ export class Board {
     console.log(board + '\n');
   }
 
-  determineWinner() {
+  determineWinner(): Team | undefined {
     let winner: Team;
 
     // check rows
