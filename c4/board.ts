@@ -73,37 +73,33 @@ export class Board {
       }
     }
 
-    // check diagonal right
+    // check diagonals
     for (let i = 0; i < this.spaces.length; i++) {
-      winner = this.checkList([
-        this.spaces[i],
-        this.spaces[i + 8],
-        this.spaces[i + 8 * 2],
-        this.spaces[i + 8 * 3],
-        this.spaces[i + 8 * 4],
-        this.spaces[i + 8 * 5]
-      ]);
+      // right -> left
+      winner = this.checkDiagonal(i, 8);
+
+      if (winner) {
+        return winner;
+      }
+
+      // left -> right
+      winner = this.checkDiagonal(i, 6);
 
       if (winner) {
         return winner;
       }
     }
+  }
 
-    // check diagonal left
-    for (let i = 0; i < this.spaces.length; i++) {
-      winner = this.checkList([
-        this.spaces[i],
-        this.spaces[i + 6],
-        this.spaces[i + 6 * 2],
-        this.spaces[i + 6 * 3],
-        this.spaces[i + 6 * 4],
-        this.spaces[i + 6 * 5]
-      ]);
-
-      if (winner) {
-        return winner;
-      }
-    }
+  private checkDiagonal(i: number, offset: 6 | 8) {
+    return this.checkList([
+      this.spaces[i],
+      this.spaces[i + offset],
+      this.spaces[i + offset * 2],
+      this.spaces[i + offset * 3],
+      this.spaces[i + offset * 4],
+      this.spaces[i + offset * 5]
+    ]);
   }
 
   private checkList(spaces: Team[]) {
