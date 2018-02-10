@@ -6,8 +6,8 @@ export enum Team {
 }
 
 export class Board {
-  private readonly rows = 6;
-  private readonly cols = 7;
+  public readonly rows = 6;
+  public readonly cols = 7;
   private readonly spaces: Team[] = new Array(this.rows * this.cols).fill(
     Team.Empty
   );
@@ -20,8 +20,22 @@ export class Board {
     this.setByIndex(row * this.cols + col, team);
   }
 
+  get(row: number, col: number): Team {
+    return this.spaces[row * this.cols + col];
+  }
+
   setByIndex(index: number, team: Team): void {
     this.spaces[index] = team;
+  }
+
+  setByColumn(col: number, team: Team): void {
+    for (let row = this.rows - 1; row >= 0; row--) {
+      let index = row * this.cols + col;
+      if (this.spaces[index] === Team.Empty) {
+        this.spaces[index] = team;
+        return;
+      }
+    }
   }
 
   key(): string {
@@ -42,70 +56,59 @@ export class Board {
     console.log(board + '\n');
   }
 
-  determineWinner(): Team | undefined {
-    let winner: Team;
+  determineWinner(): Team {
+    let winner = Team.CAT;
 
-    // check rows
-    for (let i = 0; i < this.cols; i++) {
-      const rowStart = i * this.rows;
-      const rowEnd = rowStart + this.rows + 1;
-      const row = this.spaces.slice(rowStart, rowEnd);
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        let team = this.get(row, col);
+        // If the space under test is empty, move on
+        if (team == Team.Empty) {
+          winner = Team.Empty;
+          continue;
+        }
 
-      winner = this.checkList(row);
+        if (col + 3 < this.cols) {
+          if (
+            team === this.get(row, col + 1) &&
+            team === this.get(row, col + 2) &&
+            team === this.get(row, col + 3)
+          ) {
+            return team;
+          }
+        }
 
-      if (winner) {
-        return winner;
+        if (row + 3 < this.rows) {
+          if (
+            team == this.get(row + 1, col) &&
+            team == this.get(row + 2, col) &&
+            team == this.get(row + 3, col)
+          ) {
+            return team;
+          }
+        }
+
+        if (row + 3 < this.rows && col + 3 < this.cols) {
+          if (
+            team == this.get(row + 1, col + 1) &&
+            team == this.get(row + 2, col + 2) &&
+            team == this.get(row + 3, col + 3)
+          ) {
+            return team;
+          }
+        }
+
+        if (row + 3 < this.rows && col - 3 >= 0) {
+          if (
+            team == this.get(row + 1, col - 1) &&
+            team == this.get(row + 2, col - 2) &&
+            team == this.get(row + 3, col - 3)
+          ) {
+            return team;
+          }
+        }
       }
     }
-
-    // check columns
-    for (let i = 0; i < this.cols; i++) {
-      const col = [];
-
-      for (let x = 0; x < this.rows; x++) {
-        col.push(this.spaces[x * this.cols + i]);
-      }
-
-      winner = this.checkList(col);
-
-      if (winner) {
-        return winner;
-      }
-    }
-
-    // check diagonals
-    for (let i = 0; i < this.spaces.length; i++) {
-      // right -> left
-      winner = this.checkDiagonal(i, 8);
-
-      if (winner) {
-        return winner;
-      }
-
-      // left -> right
-      winner = this.checkDiagonal(i, 6);
-
-      if (winner) {
-        return winner;
-      }
-    }
-  }
-
-  private checkDiagonal(i: number, offset: 6 | 8): Team | undefined {
-    const spaces = [];
-
-    for (let x = 0; x < this.rows; x++) {
-      spaces.push(this.spaces[i + offset * x]);
-    }
-
-    return this.checkList(spaces);
-  }
-
-  private checkList(spaces: Team[]): Team | undefined {
-    if (spaces.join('').indexOf('XXXX') > -1) {
-      return Team.X;
-    } else if (spaces.join('').indexOf('OOOO') > -1) {
-      return Team.O;
-    }
+    return winner;
   }
 }
